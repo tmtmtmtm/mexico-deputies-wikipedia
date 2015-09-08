@@ -24,6 +24,8 @@ def scrape_list(url)
   noko = noko_for(url)
   noko.xpath('//h2[contains(.,"Deputies of the LXII Legislature")]/following-sibling::table[.//th[contains(.,"State")]]//tr[td]').each do |tr|
     tr.css('td').each_slice(3) do |tds|
+      # store a 'holder' number to know if they were a replacement 
+      # (in the absence of replacement dates)
       tds[1].css('a').each_with_index do |link, i|
         data = { 
           name: link.text.tidy,
@@ -31,6 +33,7 @@ def scrape_list(url)
           state: tds[0].text.tidy,
           party: tds[2].text.tidy,
           term: '62',
+          holder: i+1,
           source: url,
         }
         ScraperWiki.save_sqlite([:name, :wikipedia__en, :state], data)
@@ -38,6 +41,5 @@ def scrape_list(url)
     end
   end
 end
-
 
 scrape_list('https://en.wikipedia.org/wiki/LXII_Legislature_of_the_Mexican_Congress')
