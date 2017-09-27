@@ -35,5 +35,5 @@ def scrape_list(url)
   end
 end
 
-ScraperWiki.sqliteexecute('DELETE FROM data') rescue nil
+ScraperWiki.sqliteexecute('DROP TABLE data') rescue nil
 scrape_list('https://en.wikipedia.org/wiki/LXII_Legislature_of_the_Mexican_Congress')
