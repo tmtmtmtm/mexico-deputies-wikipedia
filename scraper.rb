@@ -29,6 +29,7 @@ def scrape_list(url)
           holder:        i + 1,
           source:        url,
         }
+        puts data.reject { |_, v| v.to_s.empty? }.sort_by { |k, _| k }.to_h if ENV['MORPH_DEBUG']
         ScraperWiki.save_sqlite(%i[name wikipedia__en state], data)
       end
     end
