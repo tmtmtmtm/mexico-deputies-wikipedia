@@ -15,7 +15,7 @@ end
 
 def scrape_list(url)
   noko = noko_for(url)
-  noko.xpath('//h2[contains(.,"Deputies of the LXII Legislature")]/following-sibling::table[.//th[contains(.,"State")]]//tr[td]').each do |tr|
+  noko.xpath('//h2[contains(.,"Deputies")]/following-sibling::table[.//th[contains(.,"State")]]//tr[td]').each do |tr|
     tr.css('td').each_slice(3) do |tds|
       # store a 'holder' number to know if they were a replacement
       # (in the absence of replacement dates)
@@ -29,7 +29,7 @@ def scrape_list(url)
           holder:        i + 1,
           source:        url,
         }
-        ScraperWiki.save_sqlite(%i(name wikipedia__en state), data)
+        ScraperWiki.save_sqlite(%i[name wikipedia__en state], data)
       end
     end
   end
